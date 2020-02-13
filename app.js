@@ -1,12 +1,31 @@
-const weather = new Weather('Rio de Janeiro', 'RJ');
+const storage = new Storage();
+const weatherLocation = storage.getLocationData();
+const weather = new Weather(weatherLocation.city, weatherLocation.country);
+const ui = new UI();
 
-console.log(weather);
+//Get weather on DOM Load
 
-// weather.getCityId()
-//     .then(data => {console.log(data)});
+document.addEventListener('DOMContentLoaded', getWeather);
 
-weather.getCityId()
+document.querySelector('#w-change-btn').addEventListener('click', (e)=> {
+
+        const city = document.getElementById('city').value;
+        const country = document.getElementById('country').value;
+
+        weather.changeLocation(city, country);
+        storage.setLocationData(city, country);
+        getWeather();
+
+        //Close modal
+        $('#localModal').modal('hide');
+});
+
+
+function getWeather(){
+        weather.getCityId()
         .then(id => {weather.getWeather(id)
         .then(data => {
                 console.log(data);
+                ui.paint(data);
         })});
+}

@@ -1,8 +1,8 @@
 class Weather {
-    constructor(city, state){
+    constructor(city, country){
         this.apiKey = '09b763db198c8c39ea41cd8f906eb8c9';
         this.city = city;
-        this.state = state;
+        this.country = country;
     }
 
 
@@ -13,7 +13,7 @@ class Weather {
         const that = this;
         let cityId;
         data.forEach(function(current){
-            if (current.name === that.city){
+            if (current.name === that.city && current.country === that.country){
                 cityId = current.id;
             }
         });
@@ -29,5 +29,10 @@ class Weather {
 
         return data;
         
+    }
+
+    changeLocation = (city, country) => {
+        this.city = city;
+        this.country = country;
     }
 }
